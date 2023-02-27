@@ -1,14 +1,16 @@
 #include <set>
 #include <sstream>
 
-#include "decrypt.cpp"
+#include "decrypt.h"
 
 
-const char * const InitialTaskFile = "task/input/_data 8 bogdan.burcea.json";
-const char * const ShiftedTaskFile = "task/shifted/data_shifted_0.json";
-const char * const TaskDecryptedFileNoExt = "task/output/data_decrypted";
-const char * const TaskShiftedFileNoExt = "task/shifted/data_shifted_";
-const char * const TaskCustomBinaryJson = "task/custom_binary_json.json";
+const char * const InitialTaskFile = "input/_data 8 bogdan.burcea.json";
+const char * const InputTaskFile = InitialTaskFile;
+// const char * const InputTaskFile = "temp/_data 8_shifted_0.json";
+const char * const ShiftedTaskFileNoExt = "temp/_data 8_shifted_";
+const char * const DecryptedTaskFile = "temp/_data 8_decrypted.json";
+const char * const DecryptedTaskFileNoExt = "temp/_data 8_decrypted_";
+const char * const CustomBinaryJsonFile = "temp/custom_binary_json.json";
 
 
 void ShiftFile() {
@@ -16,7 +18,7 @@ void ShiftFile() {
         stringstream ss;
         ss << numLeftShift;
 
-        string outputFile = TaskShiftedFileNoExt;
+        string outputFile = ShiftedTaskFileNoExt;
         outputFile += ss.str();
         outputFile += ".json";
 
@@ -52,7 +54,7 @@ void GetFrequencyOfFile(const char * const file) {
 
 void GetPossibleFirstBytesOfFile() {
     for (int bytePosition = 0; bytePosition < 4; ++bytePosition) {
-        unsigned char encryptedByte = getByteAtIndex(ShiftedTaskFile, bytePosition);
+        unsigned char encryptedByte = getByteAtIndex(InputTaskFile, bytePosition);
 
         map<unsigned char, unsigned char> possibleDecryptedBytesToXorByte;
         for (int xorByte = 0; xorByte < 256; ++xorByte) {
@@ -79,8 +81,8 @@ void GetPossibleFirstBytesOfFile() {
 void TryAnalysisOnFirstByte() {
     int start = 0, step = 5;
 
-    unsigned char encryptedByte = getByteAtIndex(ShiftedTaskFile, start);
-    auto freqPairs = computeByteFrequencyForFile(ShiftedTaskFile, start, step);
+    unsigned char encryptedByte = getByteAtIndex(InputTaskFile, start);
+    auto freqPairs = computeByteFrequencyForFile(InputTaskFile, start, step);
 
     vector<unsigned char> targetBytes = {'{', '[', ' ', '\t', '\n', '\v', '\f', '\r', '\0', '\"'};
     for (unsigned char targetByte : targetBytes) {
@@ -97,8 +99,6 @@ void TryAnalysisOnFirstByte() {
 }
 
 void TestDecrypt() {
-    string dest = string(TaskDecryptedFileNoExt) + "_test.json";
-
     // string key = "C23456";
     // string key = "ZTZTZT";
     string key = "ZQCsyxHT"; // <----. But it only decrypts some continuous parts of the file correctly and some others are junk??
@@ -106,7 +106,7 @@ void TestDecrypt() {
     pv(key); pn;
     vector<unsigned char> xorKey(key.begin(), key.end());
 
-    decryptPerByte(InitialTaskFile, dest.c_str(), xorKey, false); // don't ignore any bytes.
+    decryptPerByte(InitialTaskFile, DecryptedTaskFile, xorKey, false); // don't ignore any bytes.
     // decryptPerByte(InitialTaskFile, dest.c_str(), xorKey, true); // ignore bad bytes.
 
     // GetFrequencyOfWholeFile(dest.c_str());
@@ -122,7 +122,7 @@ void TestWriteBytesToFile() {
         bytes.push_back(c);
     }
 
-    FILE *fout = fopen(TaskCustomBinaryJson, "wb");
+    FILE *fout = fopen(CustomBinaryJsonFile, "wb");
     assert(fout);
 
     for (unsigned char b : bytes) {
@@ -191,16 +191,16 @@ void Solve() {
 
     // for (int keyLength = 5; keyLength <= 9; ++keyLength) {
     for (int keyLength = 4; keyLength <= 10; ++keyLength) {
-        crackEncryptedFileGivenKeyLength(ShiftedTaskFile, TaskDecryptedFileNoExt, keyLength, badBytes, targetBytes);
+        crackEncryptedFileGivenKeyLength(InputTaskFile, DecryptedTaskFileNoExt, keyLength, badBytes, targetBytes);
     }
 }
 
 int main() {
-    // ShiftFile();
+    ShiftFile();
     // GetFrequencyOfBaseFile();
     // GetPossibleFirstBytesOfFile();
     // TryAnalysisOnFirstByte();
-    TestDecrypt();
+    // TestDecrypt();
     // TestWriteBytesToFile();
     // Solve();
 

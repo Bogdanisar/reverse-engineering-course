@@ -1,15 +1,10 @@
-#include "decrypt.cpp"
+#include "decrypt.h"
 
 
-// const char * const JsonSampleInputFile = "json_sample/input.json";
-// const char * const JsonSampleOutputFile = "json_sample/output.json";
-// const char * const JsonSampleOutputDecryptedFile = "json_sample/output_decrypted.json";
-
-const char * const JsonSampleLargeInputFile = "json_sample_large/input3.json";
-// const char * const JsonSampleLargeInputFile = "json_sample_large/input2UTF16.json";
-const char * const JsonSampleLargeOutputFile = "json_sample_large/output.json";
-const char * const JsonSampleLargeOutputDecryptedFile = "json_sample_large/output_decrypted.json";
-const char * const JsonSampleLargeOutputDecryptedFileNoExt = "json_sample_large/output_decrypted";
+const char * const JsonSampleLargeInputFile = "input/jsonSample_input2.json";
+const char * const JsonSampleLargeOutputFile = "temp/jsonSample_output.json";
+const char * const JsonSampleLargeOutputDecryptedFile = "temp/jsonSample_output_decrypted.json";
+const char * const JsonSampleLargeOutputDecryptedFileNoExt = "temp/jsonSample_output_decrypted";
 
 
 void GetFrequencyOfWholeFile(const char * const file) {

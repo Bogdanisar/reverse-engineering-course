@@ -15,11 +15,6 @@
 using namespace std;
 
 
-const char * const TaskSampleInputFile = "task_sample/input.txt";
-const char * const TaskSampleOutputFile = "task_sample/output.txt";
-const char * const TaskSampleOutputDecryptedFile = "task_sample/output_decrypted.txt";
-
-
 // The xor key contains only lowercase and uppercase letters (see task description).
 bool isAcceptableXorByte(unsigned char xorByte) {
     return
