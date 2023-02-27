@@ -1,0 +1,172 @@
+
+Size of the file in characters:
+2001976
+
+The first byte of the file must be '{' (assuming UTF8 encoding).
+First byte =
+
+Index of last byte = 2001975
+
+2001975 = 0 (mod 5)
+2001975 = 3 (mod 6)
+2001975 = 3 (mod 7)
+2001975 = 7 (mod 8)
+2001975 = 6 (mod 9)
+
+
+///////////// Can size(xorKey) == 5 ? /////////////
+
+Since
+2001975 = 0 (mod 5)
+then
+
+///////////// Can size(xorKey) == 5 ? /////////////
+
+
+
+// Bytes in file, shifted to the left by bit positions //
+
+0-shift: 24 121 89 3
+00011000 01111001 01011001 00000011
+
+1-shift:
+00110000 11110010 10110010
+
+2-shift:
+01100001 11100101 01100100
+
+3-shift:
+11000011 11001010 11001000
+
+4-shift:
+10000111 10010101 10010000
+
+5-shift:
+00001111 00101011 00100000
+
+6-shift:
+00011110 01010110 01000000
+
+7-shift:
+00111100 10101100 10000001
+
+
+
+
+UTF-8
+11101111 10111111 10111101
+
+Unicode:
+1111111111111101
+0xFFFD
+
+I think this is just a bad char that VSC shows when it doesn't know what to show
+
+
+
+Look for this:
+
+      "name": "cellier"
+     },
+     "message": "
+
+or just:
+"name": "cellier"
+
+
+
+0x0b 27 2d 03 09 2b 07 03
+00001011
+00100111
+00101101
+00000011
+00001001
+00101011
+00000111
+00000011
+
+
+
+https://docs.github.com/en/rest/issues/events?apiVersion=2022-11-28#get-an-issue-event
+
+
+https://api.github.com/repos/LoDoMa/Lime
+https://api.github.com/repos/hadareanrares/epaas-eshop-api-v1/commits/cd42d247aae67fa178268cd4f96cb39a0e7ab1bd
+
+
+
+https://api.github.com/repos/cellier/cellier.github.io
+https://api.github.com/repos/jcores/blog/commits/9f72a537d6a19f6e1995495750e9afc1a84d2734
+
+
+
+Look for this:
+	borazslo
+
+------- Look for this string in the decrypted file: chat - sz
+-------------------------------- Hex(LookupString): 63 68 61 74 20 2d 20 73 7a
+-------------------------------- Hex(LookupString): 63686174202d20737a
+------------ Hex found in file after lookup string: 63686174202d20737abadd726b60301c0021
+------------ Hex found in file after lookup string: 63686174 20 2d 20 737a badd726b60301c0021
+------------------------- Github link of reference: https://github.com/borazslo/miserend.hu/issues/35
+Real string of interest (according to github link): chat - színek
+------------------------ Hex(RealStringOfInterest): 63 68 61 74 20 2d 20 73 7a c3 ad 6e 65 6b
+------------------------ Hex(RealStringOfInterest): 63686174 20 2d 20 737a c3ad6e656b
+
+----------------------- Different part in file hex: badd726b60301c0021
+----------------------- Different part in real hex: c3ad6e656b
+--------------- Binary(Different part in file hex): 10111010 11011101 01110010 01101011 01100000 00110000 00011100 00000000 00100001
+--------------- Binary(Different part in real hex): 11000011 10101101 01101110 01100101 01101011
+
+
+
+gh issue view https://github.com/borazslo/miserend.hu/issues/35 --json assignees,author,body,closed,closedAt,comments,createdAt,id,labels,milestone,number,projectCards,reactionGroups,state,title,updatedAt,url
+
+gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/borazslo/miserend.hu/issues/35/events
+gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/borazslo/miserend.hu/issues/events/213307051
+gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/borazslo/miserend.hu/events
+gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" users/borazslo/received_events?per_page=100&page=4
+
+https://api.github.com/repos/borazslo/miserend.hu/events
+https://api.github.com/repos/borazslo/miserend.hu/events?per_page=100
+https://api.github.com/repos/borazslo/miserend.hu/issues/events
+https://api.github.com/repos/borazslo/miserend.hu/issues/35/events
+https://api.github.com/repos/borazslo/miserend.hu/issues/events/213307051
+https://api.github.com/users/borazslo/events?per_page=100
+https://api.github.com/users/borazslo/received_events?per_page=100&page=1
+
+
+https://api.github.com/repos/JoaoPedroPinheiro/laig1415/commits/ffabf2fed990b762a2d9299dd066c590520c5411
+
+
+
+
+
+https://api.github.com/repos/FrozenCrash/come2us/issues/10
+https://api.github.com/users/rostyslav-m/received_events
+
+https://avatars.githubusercontent.com/u/7925982?
+
+
+
+
+
+https://api.github.com/repos/datasektionen/cashflow/pulls/comments/22400164
+https://api.github.com/repos/datasektionen/cashflow/pulls/130
+https://github.com/datasektionen/cashflow/pull/130
+https://github.com/datasektionen/cashflow
+https://api.github.com/users/datasektionen/received_events
+https://api.github.com/users/datasektionen/received_events?per_page=100&page=3
+
+https://api.github.com/repos/Homebrew/homebrew/pulls/35417/commit
+
+
+
+
+
+
+https://api.github.com/repos/gunesmes/subtitle_translator
+https://api.github.com/repos/gunesmes/subtitle_translator/events?per_page=100
+https://api.github.com/users/gunesmes/received_events?per_page=100&page=3
+
+

@@ -1,0 +1,19 @@
+{
+    "code-runner.executorMap": {
+        "cpp": "cd $workspaceRoot && g++ code/$fileName -o bin/$fileNameWithoutExt.exe && cd data && ../bin/$fileNameWithoutExt.exe",
+        "python": "cd $workspaceRoot/data && python3 ../code/$fileName"
+    },
+    "files.associations": {
+        "random": "cpp",
+        "cassert": "cpp",
+        "iostream": "cpp",
+        "string": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "sstream": "cpp",
+        "cstddef": "cpp",
+        "bitset": "cpp"
+    }
+}
