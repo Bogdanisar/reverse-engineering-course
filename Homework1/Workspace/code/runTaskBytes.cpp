@@ -196,11 +196,11 @@ void Solve() {
 }
 
 int main() {
-    ShiftFile();
+    // ShiftFile();
     // GetFrequencyOfBaseFile();
     // GetPossibleFirstBytesOfFile();
     // TryAnalysisOnFirstByte();
-    // TestDecrypt();
+    TestDecrypt();
     // TestWriteBytesToFile();
     // Solve();
 

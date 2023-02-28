@@ -15,6 +15,7 @@
 using namespace std;
 
 
+
 // The xor key contains only lowercase and uppercase letters (see task description).
 bool isAcceptableXorByte(unsigned char xorByte) {
     return
@@ -73,9 +74,9 @@ unsigned char getByteAtIndex(const char *file, int index) {
 void shiftBitsInBinaryFile(const char * const input, const char * const output, const int nBitShift) {
     // printf("test\n"); fflush(stdout);
 
-    const unsigned long long maxInputBitSize = 20'000'000;
-    unsigned long long inputByteSize = getFileSize(input);
-    unsigned long long inputBitSize = inputByteSize * 8;
+    const int maxInputBitSize = 20'000'000;
+    int inputByteSize = getFileSize(input);
+    int inputBitSize = inputByteSize * 8;
     assert(inputBitSize < maxInputBitSize);
 
     bitset<maxInputBitSize> bits;
@@ -268,9 +269,9 @@ void crackEncryptedFileGivenKeyLength(const char * const encFile,
         // printFrequency(freqPairs, start, keyLength, 0, 25); pn; pn;
 
         pair<int,int> pairMinFreqIdxAndXorByte = getXorByteWithMinimumFreqIndex(freqPairs, badBytes, targetBytes);
-        int minFreqIdx = pairMinFreqIdxAndXorByte.first;
         unsigned char xorByte = pairMinFreqIdxAndXorByte.second;
 
+        // int minFreqIdx = pairMinFreqIdxAndXorByte.first;
         // pv(keyLength); pv(start); pv(minFreqIdx); pv(xorByte); pv((char)xorByte); pn;
         // printFrequency(freqPairs, start, keyLength, xorByte, 30);
         // pn; pn;

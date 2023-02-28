@@ -9,10 +9,12 @@ import UTF8CodePointConverter
 #     f.write('í')
 
 
-# input = 'input/_data 8 bogdan.burcea.json'
-input = 'input/jsonSample_input0.json'
+
+input = 'input/_data 8 bogdan.burcea.json'
+# input = 'input/jsonSample_input0.json'
 temp = 'temp/json_codepoint_test.txt'
 output = 'temp/json_codepoint_test_reverted.json'
+
 UTF8CodePointConverter.ConvertUTF8ToCodePoints(input, temp)
 UTF8CodePointConverter.ConvertCodePointsToUTF8(temp, output)
 

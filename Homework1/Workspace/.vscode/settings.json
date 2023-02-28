@@ -1,6 +1,6 @@
 {
     "code-runner.executorMap": {
-        "cpp": "cd $workspaceRoot && g++ code/$fileName -o bin/$fileNameWithoutExt.exe && cd data && ../bin/$fileNameWithoutExt.exe",
+        "cpp": "cd $workspaceRoot && g++ -Wall -Wextra code/$fileName -o bin/$fileNameWithoutExt.exe && cd data && ../bin/$fileNameWithoutExt.exe",
         "python": "cd $workspaceRoot/data && python3 ../code/$fileName"
     },
     "files.associations": {
