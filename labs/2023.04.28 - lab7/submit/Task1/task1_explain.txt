@@ -1,0 +1,7 @@
+
+Why did the extraction work?
+	We open the file in CFF Explorer. The FileDescription field says "Win32 Cabinet Self-Extractor", which means the file is supposed to be extracted. 
+	Also, if we open the file in IDA, we see that the file is recognized as "Microsoft.Net assembly" and IDA shows us some instructions.
+
+Solution: 3rmahg3rd.b0b.d0ge@flare-on.com
+
