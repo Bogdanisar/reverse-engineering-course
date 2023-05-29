@@ -1,0 +1,11 @@
+{
+    "code-runner.executorMapByFileExtension": {
+        ".S": "cd $dir && gcc -m32 $fileName -o \"$workspaceRoot\"/bin/$fileNameWithoutExt.exe && echo 'Begin:' && \"$workspaceRoot\"/bin/$fileNameWithoutExt.exe ; echo Exit code is: $?",
+    },
+    "code-runner.customCommand": "echo Hello",
+    "code-runner.executorMap": {
+        "c": "cd $dir && gcc -Wall -Wextra $fileName -o $workspaceRoot/bin/$fileNameWithoutExt.exe && $workspaceRoot/bin/$fileNameWithoutExt.exe",
+        "cpp": "cd $dir && g++ -Wall -Wextra $fileName -o $workspaceRoot/bin/$fileNameWithoutExt.exe && $workspaceRoot/bin/$fileNameWithoutExt.exe",
+        // "python": "cd $workspaceRoot/data && python3 ../code/$fileName"
+    },
+}

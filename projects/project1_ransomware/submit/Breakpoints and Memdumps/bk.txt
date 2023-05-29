@@ -1,0 +1,13 @@
+# breakpoint before ptrace result is compared. Set the result to 0 to skip the anti-debugging check.
+break *0x00000000004015CD
+  commands
+    set $rax = 0
+    print $rax
+    continue
+  end
+
+# breakpoint before asprintf() is called. This was useful to figure out why the decompiller was being weird with the parameters.
+break *0x0000000000401A51
+
+# breakpoint after code decryption.
+break *0x0000000000401b57

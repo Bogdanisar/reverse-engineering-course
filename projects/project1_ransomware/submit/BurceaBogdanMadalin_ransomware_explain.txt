@@ -1,0 +1,45 @@
+
+I mainly used IDA to figure out what the malware does, and I debugged it with GDB where necessary (like to get the decryption of ".encrypt_me_baby_one_more_time" and to get the memory dump for the decrypted code section).
+
+Files:
+	- IDA:
+		"asg1.i64" is the IDA file of interest. The rest are snapshots that were made along the analysis.
+	- Breakpoints and Memdumps:
+		- bk.txt contains the Breakpoints I used with gdb in order to find out what I needed.
+			In order to save breakpoints, I used:
+				gdb> save breakpoints <filename>
+			In order to get the saved breakpoints, I used:
+				gdb> source <filename>
+
+
+1) The pattern:
+	The malware decrypts the string ".encrypt_me_baby_one_more_time" before it checks if it should encrypt a file.
+	But it jumps over the first byte so the pattern for which it looks is actually any file that ends with "encrypt_me_baby_one_more_time".
+	It does this search recursively in the current working directory.
+
+2) How the encryption is done:
+	- A pseudo-random number generator is initialized for every file with:
+		globalEncryptionSeed = (unsigned __int64)time(0LL) ^ 0xDEADBEEF;
+		srand(globalEncryptionSeed);
+	- The malware creates a temporary file ('file' -> 'file_temp') where the encrypted file will be placed.
+	- Bytes from the initial file are read starting from the end, encrypted (byte += rand()) and then written in the output file.
+	- "fmi_re_course" is written in the output file as a token which separates the encrypted bytes from the encrypted initial file name.
+	- The name of the original file is written byte-by-byte in the output file after each byte is encrypted (byte += rand()).
+	- So the format of the encrypted file is:
+		RandEncrypt(Reverse(InitialFileBytes)) + "fmi_re_course" + RandEncrypt(InitialFileName).
+	- The code area that renames the temporary file is decrypted in-memory.
+	- The decrypted code area renames the temporary encrypted file:
+		The new name is Hex(Reverse(Seed^4)).
+	- The code area that renames the temporary file is re-encrypted in-memory.
+
+3) In order to decrypt, we need to:
+	- Get the seed, which would be Pow(Reverse(EncryptedFileName), 1/4);
+	- Use srand(seed) in C in order to get the exact same pseudo-random generator;
+	- Traverse the bytes in the same order in which they were encrypted and look for initialByte such that 
+		(initialByte + rand() == encryptedByte)
+	- Place the bytes in the correct order in the file;
+
+4) I used both Python and C++. Python because it's easy to do (LargeNumber ^ 1/4) and C++ because I need the pseudo-random generator.
+    The python code is in reverse.py and the C++ code is in reverseFile.cpp
+    Usage:
+    	$ g++ reverseFile.cpp -o reverseFile.exe && python3 reverse.py EncryptedFileNamesHere
