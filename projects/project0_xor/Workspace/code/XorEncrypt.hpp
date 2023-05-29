@@ -175,7 +175,7 @@ public:
         pv(keyLength);
         printf("xorUnitSolution = ");
         for (Unit xorUnit : xorUnitSolution) {
-            cout << "[" << xorUnit << "]";
+            cout << "[" << (int32_t)xorUnit << "]";
         }
         cout << " - ";
         for (Unit xorUnit : xorUnitSolution) {
