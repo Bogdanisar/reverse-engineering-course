@@ -1,0 +1,561 @@
+
+mov     r10d, 1    # This is the instruction we replaced to call this codecave
+
+push r8
+push r9
+
+
+# Only proceed for the highest difficulty
+mov r8, 0x140008034  #  &selectedDifficulty
+mov r8d, dword ptr [r8]
+
+cmp r8d, 3   #  3 == "Large" difficulty
+jne end_label
+
+
+# Remove the generated bombs from all the cells
+
+mov r8, 0x14000d140
+mov r9, 1600  # number of cells for the entire allocated matrix
+
+clean_matrix_loop:
+    mov dword ptr [r8], 0
+    add r8, 4
+    dec r9
+    test r9, r9
+    jnz clean_matrix_loop
+
+
+mov r8, 0x14000d140
+mov r9, 332
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 336
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 340
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 344
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 348
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 352
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 388
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 392
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 396
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 400
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 404
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 408
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 412
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 416
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 420
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 424
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 492
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 496
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 512
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 516
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 548
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 552
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 652
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 656
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 676
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 680
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 708
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 712
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 812
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 816
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 840
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 844
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 868
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 872
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 972
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 976
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1000
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1004
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1028
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1032
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1132
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1136
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1156
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1160
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1188
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1192
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1292
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1296
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1312
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1316
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1348
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1352
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1356
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1360
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1364
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1368
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1372
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1376
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1380
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1384
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1452
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1456
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1460
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1464
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1468
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1508
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1512
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1612
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1616
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1628
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1632
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1668
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1672
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1772
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1776
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1792
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1796
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1828
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1832
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1932
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1936
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1956
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1960
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1988
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 1992
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2092
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2096
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2120
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2124
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2148
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2152
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2252
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2256
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2284
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2288
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2308
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2312
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2316
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2320
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2324
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2328
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2332
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2336
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2340
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x14000d140
+mov r9, 2344
+add r9, r8
+mov dword ptr [r9], 42  # bomb
+
+mov r8, 0x140008620  # numTotalBombs
+mov dword ptr [r8], 105
+
+end_label:
+pop r9
+pop r8
+ret
+

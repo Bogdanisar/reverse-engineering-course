@@ -1,0 +1,7 @@
+push rax
+
+mov eax, dword ptr [0x140008620]             # numTotalBombs
+mov dword ptr[0x140008630], eax              # numCurrentFlags = numTotalBombs
+
+pop rax
+ret

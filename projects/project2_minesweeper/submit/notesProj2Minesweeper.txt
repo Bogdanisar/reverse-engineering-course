@@ -1,0 +1,64 @@
+
+Task1:
+	Each license key has 36 bytes.
+	"0_keygen.py" is a license key generator. It generates a random valid key on first try by:
+	- Generating the first 32 bytes of the license key randomly.
+	- Computing the last 4 bytes according to the checker-logic and the value of Machine-GUID so that the complete key is valid.
+
+After this point, the requirements for task2,3,4 are mutually exclusive, so the IDA analysis splits into 3 parts. Please check the Database-snapshot-manager in IDA (Ctrl + Shift + T) to view the correct IDA snapshot for each task.
+
+Task2:
+	We can solve this by placing the flag on bombs right after the bomb position is randomly generated at the start.
+	We find:
+		0x140001181    mov     dword ptr [rax+0A4h], 2Ah;
+	which has the effect of:
+		gameMatrix[randLine][randCol] = bomb
+
+	If we can add another mov instruction right below this instruction such that we achieve the effect:
+		hasFlagMatrix[randLine][randCol] = 1
+	then we get what we want.
+
+	Luckily, a few instructions below, we find some NOPs. We can remove those and move all the other instructions above a bit downwards and this way we make enough space for the new mov instruction.
+
+	We can do this by running the "1a_task2_moveGenerateBombBytesDownwards.py" script inside IDA to patch the instructions.
+	The file "1b_task2_list_of_initial_bytes.txt" is a list of the initial bytes which is useful for seeing the index of the bytes that need to be updated to account for the offset changes.
+
+	The effect:
+		Now all the bombs are correctly flagged, but the GUI isn't updated automatically. In order for the flag to become visible in the GUI, the user has to manually move the cursor across the cells of the game matrix.
+		(see task2_1_Minesweeper_with_flags_added_and_GUI_updated_when_moving_cursor)
+
+	In order to improve this, we need to add a new codecave section in the file and insert our own assembly code to update the GUI correctly at the start.
+	File "task2_2_Minesweeper_add_empty_codecave.exe" has an empty codecave section added.
+
+	The file "2_task2_assembly_in_first_codecave_to_update_flagged_bombs_in_GUI.txt" contains the assembly that we will add to the codecave so that the GUI gets updated correctly at the start.
+	The file with working GUI at the start is "task2_3_Minesweeper_fix_GUI_at_start.exe".
+
+	But the flag number is not updated!!
+	Got to fix this by inserting some more code...
+	The inserted assembly is in "3_task2_assembly_fix_num_flags.txt".
+
+	The final patched file for this task is (task2_4_final_Minesweeper_fix_flag_number_at_start.exe)
+
+Task3:
+	We can just hardcode the total bomb number to be equal to the board size for each difficulty. Even though most cells will require multiple (or many) tries of generating random bomb positions until finding an empty cell, the total number of cells is so small that this has no practical drawback.
+
+	We also find a bug: The string for the exploded bomb is too long! It should be just r"\*" and not r"\* ". Effect: The cell to the right of the exploded bomb gets overwritten by " " and is not visible at the end on the board. We fix this.
+
+	The final patched file for this task is (task3_1_final_Minesweeper_change_num_total_bombs_and_fix_wrong_exploded_bomb_string.exe)
+
+Task4:
+	We insert a codecave for this too and we want to insert some assembly which will populate the board cells with correctly-placed bombs such that the board displays "RE".
+
+	We "draw" the text "RE" manually inside "6_task4_template_RE_matrix.txt" and now we just need some assembly that populates the board with this...
+	But there are a lot of cells :( => Automate it.
+
+	"7_task4_template_to_asm.py" reads the matrix from "6_task4_template_RE_matrix.txt" and generates a long string of assembly that:
+	- Removes any previous information from the game matrix.
+	- Places a bomb only on those positions that should have a bomb, according to the input file.
+	The generated assembly is inside "8_task4_assembly_to_insert.txt".
+	We get the corresponding bytes for this assembly using "defuse.ca/online-x86-assembler.htm" and patch this into the executable, along with a call to the codecave.
+
+	The final exec for this task is "task4_3_final_Minesweeper_fix_wrong_exploded_bomb_string.exe".
+	...or is it?
+	
+	Doing the patching by hand is boring. The script inside "9_auto_patch_custom_board_text" does it automatically for any input matrix text. Please read the "readme.txt" file inside that folder for more information.

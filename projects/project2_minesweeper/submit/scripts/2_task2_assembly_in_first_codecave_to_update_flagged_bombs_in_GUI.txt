@@ -1,0 +1,93 @@
+# Callee-saved registers; Should be preserved
+push rbx
+push rdi
+push rsi
+push r12
+push r13
+push r14
+push r15
+
+
+# RDI is currentLine
+# RBX is currentColumn
+
+
+################ Move into rax the address of the current cell ################
+
+mov rax, rdi                  # rax == currentLine
+
+mov r12, 40
+mul r12                       # rax == currentLine * 40
+
+add rax, rbx                  # rax == currentLine * 40 + currentColumn
+
+mov r12, 4
+mul r12                       # rax == currentLine * 40 * sizeof(DWORD) + currentColumn * sizeof(DWORD)
+
+mov r12, 0x140009F40
+add rax, r12                  # rax == &hasFlagMatrix[currentLine][currentColumn]
+
+################ Move into rax the address of the current cell ################
+
+
+mov r12d, dword ptr [rax]     # r12 == hasFlagMatrix[currentLine][currentColumn]
+
+test r12d, r12d
+jz noFlag
+
+
+hasFlag:
+    # Call GetStdHandle(stdout)
+    mov ecx, 0x0FFFFFFF5
+    mov r12, 0x140006040
+    mov r12, qword ptr [r12]  # &GetStdHandle
+    call r12
+    
+    # Call SetConsoleTextAttribute(stdout_handle, intensified_pink_color)
+    mov rcx, rax
+    mov edx, 0x0D
+    mov r12, 0x140006058
+    mov r12, qword ptr [r12]  # &SetConsoleTextAttribute
+    call r12
+
+    mov rcx, 0x140006440 # "> "
+    mov r12, 0x140001010  # &_prob_printf
+    add rsp, -32 # because _prob_printf modifies the stack of the above function thinking that
+                 # it got 4 parameters and they should also be on the stack, for some reason
+    call r12
+    add rsp, 32
+
+    jmp endLabel
+noFlag:
+    # Call GetStdHandle(stdout)
+    mov ecx, 0x0FFFFFFF5
+    mov r12, 0x140006040
+    mov r12, qword ptr [r12]  # &GetStdHandle
+    call r12
+    
+    # Call SetConsoleTextAttribute(stdout_handle, intensified_white_color)
+    mov rcx, rax
+    mov edx, 0x0F
+    mov r12, 0x140006058
+    mov r12, qword ptr [r12]  # &SetConsoleTextAttribute
+    call r12
+
+    mov rcx, 0x140006450 # "[]"
+    mov r12, 0x140001010  # &_prob_printf
+    add rsp, -32 # because _prob_printf modifies the stack of the above function thinking that
+                 # it got 4 parameters and they should also be on the stack, for some reason
+    call r12
+    add rsp, 32
+
+    jmp endLabel
+
+endLabel:
+pop r15
+pop r14
+pop r13
+pop r12
+pop rsi
+pop rdi
+pop rbx
+ret
+
