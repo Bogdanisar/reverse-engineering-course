@@ -1,0 +1,17 @@
+
+https://pwnthybytes.ro/unibuc_re/02-lab-files.zip
+https://godbolt.org/
+
+Ca sa mearga
+	uint64_t
+trebuie sa facem
+	#include <stdint.h>
+
+rdi - primul argument
+rsi - al doilea argument
+rdx = al 3-lea argument
+rcx = al 4-lea argument
+r8d = al 5-lea argument
+r9d = al 6-lea argument
+rax - return
+
