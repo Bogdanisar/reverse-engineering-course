@@ -1,0 +1,45 @@
+
+The two strings that are compared are in Str1 and Str2 (in IDA).
+This means that, right before strcmp() is called, we have:
+	RSP + 0xA0 = Str1 = Reverse(SomeComputation(input)).
+	RSP + 0xD8 = Str2 = TargetValue.
+
+We can see in BurceaBogdanMadalin_Task4_5.png that those stack locations are loaded into RCX and RDX, respectively, through these instructions:
+	lea rdx,qword ptr ss:[rsp+D8]
+	lea rcx,qword ptr ss:[rsp+A0]
+So the value of RCX before strcmp() is the result of Reverse(SomeComputation(input)) and the value of RDX before strcmp() is the target value stored in Str2.
+
+We input "password" and stop at strcmp() in x64dbg in BurceaBogdanMadalin_Task4_5.png and see that:
+	RCX = Str1 = Reverse(SomeComputation("password")) = 99fc288bed7238d16d567aa5b3ccd4f5
+	RDX = Str2 = TargetValue = 7ae9fede8186e93d72761328c6164684
+
+
+TargetValue = 7ae9fede8186e93d72761328c6164684
+	=>
+Reverse(TargetValue) = 4864616c82316727d39e6818edef9ea7
+	=>
+SomeComputation(targetInput) = 4864616c82316727d39e6818edef9ea7
+
+
+
+What is SomeComputation()?
+
+	Reverse(SomeComputation("password")) = 99fc288bed7238d16d567aa5b3ccd4f5
+		=>
+	SomeComputation("password") = 5f4dcc3b5aa765d61d8327deb882cf99
+
+	Just in case, we want to check this. We stop the debugger right before Str1 is reversed. We look at BurceaBogdanMadalin_Task4_10.png and see this value on the stack.
+
+
+How do we find targetInput?
+	We search for "5f4dcc3b5aa765d61d8327deb882cf99" on the internet and we find that:
+		MD5("password") = 5f4dcc3b5aa765d61d8327deb882cf99.
+	Therefore, we intuit that SomeComputation = MD5.
+
+	So we need a value such that MD5(input) = 4864616c82316727d39e6818edef9ea7.
+	We search for common MD5 hashes on the internet and find the password: fmire.
+
+
+
+
+
