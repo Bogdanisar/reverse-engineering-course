@@ -1,0 +1,10 @@
+
+The main() function allocates a global list structure. 
+Through the nodes, an association between index (1, 2, ...) and letter ('b', 'c', ...) is made. 
+Then the password checking function looks for the letters that match with the following node indexes: [20, 13, 8, 1, 20, 2].
+These indexes correspond to the password: unibuc.
+
+
+
+
+
