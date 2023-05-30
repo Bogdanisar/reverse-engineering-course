@@ -1,0 +1,43 @@
+/* The address of the bomb byte in memory is stored in EAX when this is called and ESI is not used by the parent function at this point. */
+start:
+mov   esi, eax
+add   esi, -32
+add   esi, -1
+call  func     /* Neighbour that's Above and to the Left */
+
+add   esi, 1
+call  func     /* Neighbour that's Above */
+
+add   esi, 1
+call  func     /* Neighbour that's Above and to the Right */
+
+
+mov   esi, eax
+add   esi, -1
+call  func     /* Neighbour that's to the Left */
+
+add   esi, +2
+call  func     /* Neighbour that's to the Right */
+
+
+mov   esi, eax
+add   esi, +32
+add   esi, -1
+call  func     /* Neighbour that's Below and to the Left */
+
+add   esi, 1
+call  func     /* Neighbour that's Below */
+
+add   esi, 1
+call  func     /* Neighbour that's Below and to the Right */
+
+dec   DWORD PTR ds:0x1005330  /* We need to do this instruction here because we replaced it in the parent function with a call to this function */
+ret    /* The 'ret' instruction doesn't change any register flags, so the jnz instruction after returning will function correctly according to the 'dec' instruction */
+
+
+func:
+/* Argument is in ESI */
+cmp   byte ptr [esi], 13  /* Check if this cell is a hidden cell with a question mark on it */
+jne   7  /* Jump over the next instruction */
+mov   byte ptr [esi], 15 /* If this had a flag on it, we need to make it a simple cell since it's next to a bomb cell */
+ret

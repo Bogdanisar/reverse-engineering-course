@@ -1,0 +1,158 @@
+fix_game_matrix_after_first_cell_is_bomb:
+
+    /* *ptrInitialCell = GameCellType_Safe_Hidden; */
+    mov byte ptr [edx], 0x0F
+    /* gameCellMatrix[currentLine][currentColuimn] = GameCellType_Bomb_Hidden_Flag; */
+    mov byte ptr [eax], 0x8E
+
+
+    push eax
+    push ebx
+    push ecx
+    push edx
+    push esi
+    push edi
+
+
+    /* Place Question marks on all empty cells */
+
+    mov eax, 0x01005340     /* EAX = &GameMatrix */
+    add eax, 33             /* EAX = &GameMatrix[1][1] (actual first cell of the matrix) */
+
+    mov ebx, 1              /* EBX = i */
+    loop1_line:
+        mov ecx, 1          /* ECX = j */
+        loop1_column:
+            call place_question_mark_on_safe_cells
+
+            add eax, 1
+            add ecx, 1                          /* ++j */
+
+            cmp ecx, dword ptr [0x01005334]     /* 0x01005334 = currentGridColumnsNumber_2 */
+            jbe loop1_column
+        
+        add ebx, 1                              /* ++i */
+
+        /* Jump to the next line */
+        add eax, 32                         
+        /* Go back to the first cell */
+        sub eax, dword ptr [0x01005334]         /* 0x01005334 = currentGridColumnsNumber_2 */
+
+        cmp ebx, dword ptr [0x01005338]         /* 0x01005338 = currentGridLinesNumber_2 */
+        jbe loop1_line
+
+
+    /* Remove Question Marks from cells that have a bomb around them */
+
+    mov eax, 0x01005340     /* EAX = &GameMatrix */
+    add eax, 33             /* EAX = &GameMatrix[1][1] (actual first cell of the matrix) */
+
+    mov ebx, 1              /* EBX = i */
+    loop2_line:
+        mov ecx, 1          /* ECX = j */
+        loop2_column:
+            cmp byte ptr [eax], 0x8E            /* GameCellType_Bomb_Hidden_Flag  = 8Eh */
+            jne after_call
+
+            call -205                           /* This is the function from the first hack */
+
+            after_call:
+
+            add eax, 1
+            add ecx, 1                          /* ++j */
+
+            cmp ecx, dword ptr [0x01005334]     /* 0x01005334 = currentGridColumnsNumber_2 */
+            jbe loop2_column
+        
+        add ebx, 1                              /* ++i */
+
+        /* Jump to the next line */
+        add eax, 32                         
+        /* Go back to the first cell */
+        sub eax, dword ptr [0x01005334]         /* 0x01005334 = currentGridColumnsNumber_2 */
+
+        cmp ebx, dword ptr [0x01005338]         /* 0x01005338 = currentGridLinesNumber_2 */
+        jbe loop2_line
+
+
+    /* Draw cells */
+
+    mov eax, 0x01005340     /* EAX = &GameMatrix */
+    add eax, 33             /* EAX = &GameMatrix[1][1] (actual first cell of the matrix) */
+
+    mov ebx, 1              /* EBX = i */
+    loop3_line:
+        mov ecx, 1          /* ECX = j */
+        loop3_column:
+
+            /************* Draw the cell *************/
+            push eax
+            push ebx
+            push ecx
+
+            push ebx        /* line */
+            push ecx        /* column */
+            mov edx, 0x1002646  /* Draw cell */
+            call edx        /* TODO */
+
+            pop ecx
+            pop ebx
+            pop eax
+            /************* Draw the cell *************/
+
+
+            add eax, 1
+            add ecx, 1                          /* ++j */
+
+            cmp ecx, dword ptr [0x01005334]     /* 0x01005334 = currentGridColumnsNumber_2 */
+            jbe loop3_column
+        
+        add ebx, 1                              /* ++i */
+
+        /* Jump to the next line */
+        add eax, 32                         
+        /* Go back to the first cell */
+        sub eax, dword ptr [0x01005334]         /* 0x01005334 = currentGridColumnsNumber_2 */
+
+        cmp ebx, dword ptr [0x01005338]         /* 0x01005338 = currentGridLinesNumber_2 */
+        jbe loop3_line
+
+
+    /* Set number of unflagged bombs to 0 again */
+    mov dword ptr [0x01005194], 0               /* 0x01005194 = currentUnflaggedBombs */
+
+    push 0
+    mov edx, 0x0100346A                          /* updateNumberUnflaggedBombsWithGUI(0) */
+    call edx
+
+
+    fix_matrix_end:
+    /* Restore saved registers */
+    pop edi
+    pop esi
+    pop edx
+    pop ecx
+    pop ebx
+    pop eax
+    ret
+
+
+/* Cell location is in EAX */
+place_question_mark_on_safe_cells:
+    /* Save EBX */
+    push ebx
+
+    mov ebx, eax
+    test byte ptr [ebx], 0x80
+    jnz place_question_mark_on_safe_cells_end    /* Cell has a bomb */
+
+    /* Cell is a safe cell */
+    mov byte ptr [eax], 0xD    /* GameCellType_Safe_Hidden_Question = 0Dh */
+
+    place_question_mark_on_safe_cells_end:
+    pop ebx
+    ret
+
+
+
+

@@ -1,0 +1,48 @@
+
+Folders:
+	IDA:
+		The relevant IDA file is winmine.idb. The rest are just snapshots taken along the analysis.
+
+- For Task a)
+	We just need to replace an assembly instruction from
+		or      byte ptr [eax], 80h
+	to
+		mov     byte ptr [eax], 8Eh
+	inside startNewGame().
+	Thankfully, these instructions have the same length, so this is simple!
+
+- For Task b)
+	It's easy to make all non-bombs cell have a question mark. This is achieved like the previous point by replacing
+	a same-length instruction inside initGameCellsWithEmptyCellsAndBorder().
+	But we want to put a '?' only on game cells that are empty and that don't have any bombs as neighbour cells. Even the game itself waits until a cell is clicked before it computes if an empty cell has bombs as neighbours, so this information is not available at the start of the game. We have to perform this computation ourselves. In order to do this, we need to add a bit of extra code somewhere (a "codecave") and redirect the startNewGame() function to this code and then back inside startNewGame().
+
+	The mechanism for inserting a new segment and calling the code is shown in the screenshots.
+	The inserted code is available as assembly in "Statically Inserted Assembly/lab5_Asm1_Task2.txt"
+
+- For Task c)
+	We find the registry key used to keep the highscore information, namely:
+		HKEY_CURRENT_USER\\Software\\Microsoft\\winmine
+	We can change this and we get put on the leaderboard, as shown in the screenshots.
+	However, this isn't a complete solution because pressing the "Reset" button will reset highscore to "999 - Anonynmous". 
+
+	In order to fix this, we need to patch the binary to replace "Anonymous" to "Bogdan" and any assembly instructions that initialize the highscores to "999" need to be patched to contain the constant "0". The screenshots show how this is done.
+
+	NOTE! The string "Anonymous" might still appear if non-patched Minesweeper was executed before patched Minesweeper (saved in the registry), but it will disappear if the highscores are reset and it should be completely gone if Minesweeper is run on a fresh system (or if the registry is cleared).
+
+- For Task d)
+	The creator name is available as a string resource in the .rsrc segment. Just edit this with Resource Hacker!
+
+- For fixing the case when the first cell on which the user clicks is a bomb:
+	By testing / using x64dbg / noticing that rand() is only used in one place,
+	we observe that the bomb is moved into the first empty spot from the start of the matrix.
+	(So if the first spot is empty, it will be placed there)
+	(If the first spot is already a bomb but the second is empty, it will be placed in the second spot)
+	(etc.)
+
+	After the bomb is moved, we need to update the CellType around the old position and around the new position. It's easier to just update the whole matrix.
+	The only way in which we could do this is by inserting another codecave.
+	The code is available in "Statically Inserted Assembly/lab5_Asm2_FirstCell.txt"
+	Not only do we need to update the Cell Types but we also need to call an API function to draw each cell!
+	We didn't need to do that in the first codecave since the game updates the whole matrix afterwards anyway.
+	Luckly, there is already a method for updating GUI cells inside Minesweeper.
+
