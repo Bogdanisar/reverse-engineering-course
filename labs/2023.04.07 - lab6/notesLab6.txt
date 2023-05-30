@@ -1,0 +1,30 @@
+
+/////////////// Setup commands ///////////////
+
+sudo apt update
+
+sudo apt install python3−pycryptodome xinetd libffi-dev python3-wheel gcc gdb python3-setuptools python3-dev libssl-dev git libc6-dbg python3-pip make gcc-multilib socat
+
+pip3 install pwntools
+
+
+pip3 install pycryptodome
+sudo apt install cmake ninja-build
+
+
+///// github.com/david942j/one_gadget /////
+
+sudo apt install ruby-rubygems
+
+https://stackoverflow.com/a/50361633/9666170
+	mkdir ~/.ruby
+	echo 'export GEM_HOME=~/.ruby/' >> ~/.bashrc
+	echo 'export PATH="$PATH:~/.ruby/bin"' >> ~/.bashrc
+	source ~/.bashrc
+	
+gem install one_gadget
+
+///// github.com/david942j/one_gadget /////
+
+/////////////// Setup commands ///////////////
+
